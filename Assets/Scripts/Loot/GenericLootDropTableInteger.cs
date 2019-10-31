@@ -1,0 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace PolyEQ.Loot
+{
+    /// <summary>
+    /// When inheriting, first we have to insert GenericLootDropItemGameObject instead of T and a GameObject instead of U
+    /// </summary>
+    [System.Serializable]
+    public class GenericLootDropTableInteger : GenericLootDropTable<GenericLootDropItemInteger, int> { }
+}
