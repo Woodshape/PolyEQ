@@ -34,7 +34,7 @@ namespace PolyEQ.Combat
             {
                 GameObject weaponGo;
 
-                if (IsHandedWeapon())
+                if (IsSpecialHandedWeapon())
                 {
                     weaponGo = Instantiate(weaponPrefab, leftHand);
                     // weaponGo.transform.SetParent(leftHand, true);
@@ -244,7 +244,7 @@ namespace PolyEQ.Combat
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        public bool IsHandedWeapon()
+        public bool IsSpecialHandedWeapon()
         {
             //  Check to see if the weapon is of a special kind (i.e. requires a special hand to wield).
             switch (GetWeaponType())
