@@ -46,7 +46,8 @@ namespace PolyEQ.Combat
 
                 if (animatorOverride != null)
                 {
-                    animator.runtimeAnimatorController = animatorOverride;
+                    //TODO: FIX ANIMATION
+                    // animator.runtimeAnimatorController = animatorOverride;
                 }
 
                 if (HasGlowEffect())

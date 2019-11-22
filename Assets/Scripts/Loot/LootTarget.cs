@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PolyEQ.Combat;
 
 namespace PolyEQ.Loot
 {
@@ -8,6 +9,7 @@ namespace PolyEQ.Loot
     {
 
         public GenericLootDropTableGameObject lootDropTable;
+        public GenericLootDropTableScriptableObject itemDropTable;
         public GenericLootDropTableInteger coinDropTable;
 
         public int numItemsToDrop;
@@ -23,6 +25,7 @@ namespace PolyEQ.Loot
         {
             //  Validate Loot Table
             lootDropTable.ValidateTable();
+            itemDropTable.ValidateTable();
             coinDropTable.ValidateTable();
         }
 
@@ -56,6 +59,40 @@ namespace PolyEQ.Loot
 
                 Debug.Log(selectedCoins.item);
             }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        public void CreateLoot(int numberOfItems)
+        {
+            itemDropTable.ValidateTable();
+
+            for (int i = 0; i < numberOfItems; i++)
+            {
+                GenericLootDropItemScriptableObject selectedItem = itemDropTable.PickLootDropItem();
+
+                //  For now we just want to get a weapon from the loot list, create an instance of the weapon
+                //  and then drop that instance clone with the correct metadata (i.e. rarity) on the ground (to pickup).
+                //  TODO: Handle other cases of scriptable objects!
+                Weapon selectedItemWeapon = ScriptableObject.Instantiate((Weapon)selectedItem.item);
+                Weapon weaponInstance = selectedItemWeapon.CreateWeaponInstance(selectedItemWeapon);
+                Weapon weaponToDrop = weaponInstance.CloneWeapon(weaponInstance);
+
+                Debug.Log("Creating Loot Chest Item: " + weaponToDrop + " / " + weaponToDrop.GetWeaponRarity());
+
+                DropItem(weaponToDrop);
+            }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        void DropItem(Weapon item)
+        {
+            GameObject prefab = item.Drop(new Vector3(
+                    this.transform.position.x + Random.Range(-xOff, xOff),
+                    this.transform.position.y + 0.5f,
+                    this.transform.position.z + Random.Range(-zOff, zOff)));
+
+            //  Make sure to set the correct weapon to drop on the ground.
+            prefab.GetComponent<WeaponPickup>().SetWeaponPickup(item);
         }
     }
 }

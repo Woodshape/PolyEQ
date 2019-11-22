@@ -53,7 +53,8 @@ namespace PolyEQ.Core
                 //  since it is possible that our loot target was spawned from code,
                 //  it seems necessary to validate the loot table on death.
                 GetComponent<LootTarget>().lootDropTable.ValidateTable();
-                GetComponent<LootTarget>().DropLootNearCorpse();
+                // GetComponent<LootTarget>().DropLootNearCorpse();
+                GetComponent<LootTarget>().CreateLoot(GetComponent<LootTarget>().numItemsToDrop);
             }
         }
     }
